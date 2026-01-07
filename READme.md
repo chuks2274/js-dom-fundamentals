@@ -49,4 +49,5 @@ Deployment: Deploys the project to Vercel automatically if tests pass.
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/chuks2274/js-dom-fundamentals.git
+   cd js-dom-fundamentals
