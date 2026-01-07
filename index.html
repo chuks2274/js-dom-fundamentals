@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JavaScript DOM</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <h3>JavaScript DOM Demos</h3>
+    <ul>
+      <li><a href="#colorText">Color Toggle</a></li>
+      <li><a href="#count">Counter</a></li>
+      <li><a href="#list">Add/Remove List</a></li>
+      <li><a href="#myForm">Form</a></li>
+      <li><a href="#listColorToggle">Color Toggle</a></li>
+      <li><a href="#itemList">Item List</a></li>
+      <li><a href="#word">Word Toggle</a></li>
+      <li><a href="#message">Show/Hide Message</a></li>
+      <li><a href="#catImage">Random Cat</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT: TWO COLUMNS -->
+  <main class="main-grid">
+    <div class="column left">
+      <!-- SECTION 1: Toggle Color Text -->
+      <section class="container" id="box">
+        <h2 id="colorText">Color</h2>
+        <div class="btn-group">
+          <button class="btn" id="toggleBtn">Toggle Color</button>
+        </div>
+      </section>
+
+      <!-- SECTION 2: Counter -->
+      <section class="container">
+        <h2 >Counter</h2>
+        <h2 id="count">0</h2>
+        <div class="btn-group">
+          <button class="btn" id="inc">+</button>
+          <button class="btn" id="dec">-</button>
+          <button class="btn" id="reset">Reset</button>
+        </div>
+      </section>
+
+      <!-- SECTION 3: Add / Remove List Items -->
+      <section class="container">
+        <h2>List Item</h2>
+        <ul id="list" class="list"></ul>
+      <div class="btn-group">
+        <button class="btn" id="addBtn">Add Item</button>
+        <button class="btn" id="removeBtn">Remove Item</button>
+      </div>
+</section>
+
+      <!-- SECTION 4: Registration Form -->
+      <section class="container">
+        <h2>Registration Form</h2>
+        <form id="myForm">
+          <label>
+            Name:
+            <input class="form" type="text" id="name" placeholder="Enter your name" required />
+          </label><br /><br />
+
+          <label>
+            Email:
+            <input class="form" type="email" id="email" placeholder="Enter your email" required />
+          </label><br /><br />
+
+          <label>
+            Password:
+            <input class="form" type="password" id="password" placeholder="Enter your password" required />
+          </label><br /><br />
+
+          <button class="btn" type="submit">Submit</button>
+          <div id="successMsg" class="success"></div>
+        </form>
+      </section>
+
+      <!-- SECTION 5: Toggle List Item Colors -->
+      <section class="container" id="listColorToggle">
+        <h2>Toggle List Item Colors</h2>
+        <ul>
+          <li class="item">Apple</li>
+          <li class="item">Banana</li>
+          <li class="item">Orange</li>
+        </ul>
+        <button class="btn toggleBtn">Toggle List Color</button>
+      </section>
+    </div>
+
+    
+    <div class="column right">
+      <!-- SECTION 6: Empty List -->
+      <section class="container">
+        <h2>List Item</h2>
+        <ul id="itemList"></ul>
+      </section>
+
+      <!-- SECTION 7: Toggle Word -->
+      <section class="container">
+        <h2>Toggle Message</h2>
+        <h2 id="word">Hello World!</h2>
+        <div class="btn-group">
+          <button class="btn" id="togglebtn">Toggle Message</button>
+        </div>
+      </section>
+
+      <!-- SECTION 8: Toggle Message -->
+      <section class="container">
+        <h2>Show/Hide Message</h2>
+        <h2 id="message">JavaScript is Fun!</h2>
+        <div class="btn-group">
+          <button class="btn" id="toggleMessageBtn">Show/Hide Message</button>
+        </div>
+      </section>
+
+      <!-- SECTION 9: Random Cat Image -->
+      <section class="container">
+        <h2>Random Cat Image</h2>
+        <div class="cat-image-container">
+          <img class="cat-image" id="catImage" src="" alt="Random Cat" />
+        </div>
+        <button class="btn" id="catBtn">Get Random Cat</button>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
