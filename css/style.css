@@ -62,7 +62,7 @@ main.main-grid {
   display: flex;
   gap: 2rem;
   padding: 1rem 2rem;
-  align-items: flex-start; /* push sections up */
+  align-items: flex-start;  
   flex-wrap: wrap;
 }
 
@@ -79,7 +79,7 @@ main.main-grid {
 }
 
 main.main-grid .container {
-  margin: 0; /* remove auto margin for grid layout */
+  margin: 0;  
 }
 
 /* =========================
@@ -202,7 +202,7 @@ li:hover {
 }
 
 .item {
-  color: white; /* override for specific items */
+  color: white;  
 }
 
 /* =========================
