@@ -5,35 +5,39 @@
 const fs = require("fs");
 const path = require("path");
 
-// Load HTML
+// Load HTML before requiring the JS
 const html = fs.readFileSync(path.resolve(__dirname, "../index.html"), "utf8");
-
-let script;
 
 beforeEach(() => {
   // Reset DOM
   document.documentElement.innerHTML = html;
 
-  // Reset modules so all variables/functions reload
+  // Re-require the JS so all getElementById calls work with the fresh DOM
   jest.resetModules();
-  script = require("../js/script.js");  
+  script = require("../js/script.js");
 });
 
+let script; // declare script outside beforeEach so tests can access it
+
+// --- SECTION 1: Toggle Color Box ---
 describe("SECTION 1: Toggle Color Box", () => {
-  test("toggleBoxColor changes color from Red to Green and back", () => {
+  test("toggleBoxColor changes color from Red to Green and back (via classes)", () => {
     const box = document.getElementById("box");
     const colorText = document.getElementById("colorText");
 
     script.toggleBoxColor();
-    expect(colorText.textContent).toBe("Green");  
-    expect(box.style.backgroundColor).toBe("green");  
+    expect(box.classList.contains("green")).toBe(true);
+    expect(box.classList.contains("red")).toBe(false);
+    expect(colorText.textContent).toBe("Green");
 
     script.toggleBoxColor();
-    expect(colorText.textContent).toBe("Red");    
-    expect(box.style.backgroundColor).toBe("red");    
+    expect(box.classList.contains("red")).toBe(true);
+    expect(box.classList.contains("green")).toBe(false);
+    expect(colorText.textContent).toBe("Red");
   });
 });
 
+// --- SECTION 2: Counter ---
 describe("SECTION 2: Counter", () => {
   test("increment, decrement, reset work correctly", () => {
     const countEl = document.getElementById("count");
@@ -50,9 +54,8 @@ describe("SECTION 2: Counter", () => {
     script.reset();
     expect(countEl.textContent).toBe("0");
 
-    // count should not go below 0
     script.decrement();
-    expect(countEl.textContent).toBe("0");
+    expect(countEl.textContent).toBe("0"); // should not go below 0
   });
 });
 
@@ -60,7 +63,6 @@ describe("SECTION 3: Add / Remove List Items", () => {
   test("addItem and removeItem modify the list correctly", () => {
     const listEl = document.getElementById("list");
 
-    // Initial list
     expect(listEl.children.length).toBe(3);
 
     script.addItem();
@@ -74,7 +76,7 @@ describe("SECTION 3: Add / Remove List Items", () => {
 
 describe("SECTION 4: Registration Form", () => {
   test("handleSubmit displays success message and clears it after 3s", () => {
-    jest.useFakeTimers(); // <-- enable fake timers
+    jest.useFakeTimers();
 
     const form = document.getElementById("myForm");
     const successMsg = document.getElementById("successMsg");
@@ -82,45 +84,44 @@ describe("SECTION 4: Registration Form", () => {
     const event = { preventDefault: jest.fn() };
     script.handleSubmit(event);
 
-    expect(successMsg.textContent).toBe("Form submitted successfully!");
     expect(event.preventDefault).toHaveBeenCalled();
+    expect(successMsg.textContent).toBe("Form submitted successfully!");
 
-    jest.advanceTimersByTime(3000);  
+    jest.advanceTimersByTime(3000);
     expect(successMsg.textContent).toBe("");
 
-    jest.useRealTimers(); // restore timers
+    jest.useRealTimers();
   });
 });
 
 describe("SECTION 5: Toggle List Item Colors", () => {
-  test("toggleListColor switches colors between green and black", () => {
+  test("toggleListColor toggles .black class", () => {
     const items = document.querySelectorAll(".item");
 
     script.toggleListColor();
     items.forEach(item => {
-      expect(item.style.backgroundColor).toBe("black");
+      expect(item.classList.contains("black")).toBe(true);
     });
 
     script.toggleListColor();
     items.forEach(item => {
-      expect(item.style.backgroundColor).toBe("green");
+      expect(item.classList.contains("black")).toBe(false);
     });
   });
 });
 
 describe("SECTION 6: Populate Item List", () => {
-  test("itemListEl populates correctly with items", () => {
+  test("itemListEl children get dataset.key assigned", () => {
     const itemListEl = document.getElementById("itemList");
 
-    expect(itemListEl.children.length).toBe(3);
-    expect(itemListEl.children[0].textContent).toBe("Apple");
-    expect(itemListEl.children[1].textContent).toBe("Banana");
-    expect(itemListEl.children[2].textContent).toBe("Orange");
+    Array.from(itemListEl.children).forEach((li, index) => {
+      expect(li.dataset.key).toBe(index.toString());
+    });
   });
 });
 
 describe("SECTION 7: Toggle Word", () => {
-  test("toggleWord changes word correctly", () => {
+  test("toggleWord switches text correctly", () => {
     const wordEl = document.getElementById("word");
 
     script.toggleWord();
@@ -132,14 +133,14 @@ describe("SECTION 7: Toggle Word", () => {
 });
 
 describe("SECTION 8: Toggle Message Display", () => {
-  test("toggleMessage hides and shows message", () => {
+  test("toggleMessage toggles .hidden class", () => {
     const messageEl = document.getElementById("message");
 
     script.toggleMessage();
-    expect(messageEl.style.display).toBe("none");
+    expect(messageEl.classList.contains("hidden")).toBe(true);
 
     script.toggleMessage();
-    expect(messageEl.style.display).toBe("block");
+    expect(messageEl.classList.contains("hidden")).toBe(false);
   });
 });
 

@@ -363,3 +363,28 @@ li:hover {
   }
 }
 
+.item {
+  background-color: green; 
+}
+
+.item.black {
+  background-color: black;
+}
+
+.hidden {
+  display: none;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  transition: background-color 0.3s;
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}

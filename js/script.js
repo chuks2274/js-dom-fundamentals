@@ -1,88 +1,82 @@
 /* ==============================
    SECTION 1: Toggle Color Box
 ============================== */
-let boxColor = "Red";
 const box = document.getElementById("box");
 const colorText = document.getElementById("colorText");
 const boxToggleBtn = document.getElementById("toggleBtn");
 
 function toggleBoxColor() {
-  boxColor = boxColor === "Red" ? "Green" : "Red";
-  box.style.backgroundColor = boxColor;
-  colorText.textContent = boxColor;
+  if (!box || !colorText) return;
+
+  box.classList.toggle("green");
+  box.classList.toggle("red");
+
+  const isGreen = box.classList.contains("green");
+  colorText.textContent = isGreen ? "Green" : "Red";
 }
 
-if (boxToggleBtn) boxToggleBtn.addEventListener("click", toggleBoxColor);
+boxToggleBtn.addEventListener("click", toggleBoxColor);
 
 
 /* ==============================
    SECTION 2: Counter
 ============================== */
-let count = 0;
 const countEl = document.getElementById("count");
 const incBtn = document.getElementById("inc");
 const decBtn = document.getElementById("dec");
 const resetBtn = document.getElementById("reset");
 
-function updateUI() {
-  if (countEl) countEl.textContent = count;
+function getCount() {
+  return Number(countEl.textContent) || 0;
+}
+
+function setCount(value) {
+  countEl.textContent = value;
 }
 
 function increment() {
-  count++;
-  updateUI();
+  if (!countEl) return;
+  setCount(getCount() + 1);
 }
 
 function decrement() {
-  count = Math.max(count - 1, 0);
-  updateUI();
+  if (!countEl) return;
+  setCount(Math.max(getCount() - 1, 0));
 }
 
 function reset() {
-  count = 0;
-  updateUI();
+  if (!countEl) return;
+  setCount(0);
 }
 
-if (incBtn) incBtn.addEventListener("click", increment);
-if (decBtn) decBtn.addEventListener("click", decrement);
-if (resetBtn) resetBtn.addEventListener("click", reset);
-
-updateUI();
+incBtn.addEventListener("click", increment);
+decBtn.addEventListener("click", decrement);
+resetBtn.addEventListener("click", reset);
 
 
 /* ==============================
    SECTION 3: Add / Remove List Items
 ============================== */
-let listItems = ["Apple", "Banana", "Orange"];
 const listEl = document.getElementById("list");
 const addBtn = document.getElementById("addBtn");
 const removeBtn = document.getElementById("removeBtn");
 
-function renderList() {
-  if (!listEl) return;
-  listEl.innerHTML = "";
-  listItems.forEach((item, index) => {
-    const li = document.createElement("li");
-    li.textContent = `${index + 1}. ${item}`;
-    li.dataset.key = index;
-    listEl.appendChild(li);
-  });
-}
-
 function addItem() {
-  listItems.push("Mango");
-  renderList();
+  if (!listEl) return;
+
+  const li = document.createElement("li");
+  li.textContent = `${listEl.children.length + 1}. Mango`;
+  listEl.appendChild(li);
 }
 
 function removeItem() {
-  listItems.pop();
-  renderList();
+  if (!listEl || listEl.children.length === 0) return;
+
+  listEl.removeChild(listEl.lastElementChild);
 }
 
-renderList();
-
-if (addBtn) addBtn.addEventListener("click", addItem);
-if (removeBtn) removeBtn.addEventListener("click", removeItem);
+addBtn.addEventListener("click", addItem); 
+removeBtn.addEventListener("click", removeItem);
 
 
 /* ==============================
@@ -105,7 +99,7 @@ function showFormMessage(message) {
   }, 3000);
 }
 
-if (form) form.addEventListener("submit", handleSubmit);
+form.addEventListener("submit", handleSubmit);
 
 
 /* ==============================
@@ -114,32 +108,23 @@ if (form) form.addEventListener("submit", handleSubmit);
 const toggleListBtn = document.querySelector(".toggleBtn");
 const colorItems = document.querySelectorAll(".item");
 
-colorItems.forEach(item => {
-  item.style.backgroundColor = "green";
-});
-
 function toggleListColor() {
   colorItems.forEach(item => {
-    item.style.backgroundColor =
-      item.style.backgroundColor === "green" ? "black" : "green";
+    item.classList.toggle("black"); 
   });
 }
 
-if (toggleListBtn) toggleListBtn.addEventListener("click", toggleListColor);
+toggleListBtn.addEventListener("click", toggleListColor);
 
 
 /* ==============================
    SECTION 6: Populate Item List
 ============================== */
 const itemListEl = document.getElementById("itemList");
-const itemList = ["Apple", "Banana", "Orange"];
 
 if (itemListEl) {
-  itemList.forEach((item, index) => {
-    const li = document.createElement("li");
-    li.textContent = item;
-    li.dataset.key = index;
-    itemListEl.appendChild(li);
+  Array.from(itemListEl.children).forEach((li, index) => {
+    li.dataset.key = index; 
   });
 }
 
@@ -147,33 +132,35 @@ if (itemListEl) {
 /* ==============================
    SECTION 7: Toggle Word
 ============================== */
-let word = "Hello World!";
 const wordEl = document.getElementById("word");
 const wordBtn = document.getElementById("togglebtn");
 
 function toggleWord() {
-  word = word === "Hello World!" ? "Goodbye" : "Hello World!";
-  if (wordEl) wordEl.textContent = word;
+  if(!wordEl) return;
+  wordEl.textContent = wordEl.textContent === "Hello World!" ? "Goodbye" : "Hello World!";
+  
 }
 
-if (wordBtn) wordBtn.addEventListener("click", toggleWord);
+ wordBtn.addEventListener("click", toggleWord);
 
 
 /* ==============================
    SECTION 8: Toggle Message Display
 ============================== */
-let showMessageFlag = true;
 const messageEl = document.getElementById("message");
 const messageBtn = document.getElementById("toggleMessageBtn");
 
 function toggleMessage() {
-  showMessageFlag = !showMessageFlag;
-  if (messageEl) messageEl.style.display = showMessageFlag ? "block" : "none";
+  if (!messageEl) return;
+
+  messageEl.classList.toggle("hidden");
 }
 
-if (messageBtn) messageBtn.addEventListener("click", toggleMessage);
+messageBtn.addEventListener("click", toggleMessage);
 
+/* ==============================
 // SECTION 9: Random Cat Image
+============================== */
 const catBtn = document.getElementById("catBtn");
 const catImage = document.getElementById("catImage");
 
@@ -188,19 +175,38 @@ async function fetchRandomCat() {
 }
 
 catBtn.addEventListener("click", fetchRandomCat);
+fetchRandomCat();
 
-// Export functions for testing
-module.exports = {
-  toggleBoxColor,
-  increment,
-  decrement,
-  reset,
-  addItem,
-  removeItem,
-  handleSubmit,
-  showFormMessage,
-  toggleListColor,
-  toggleWord,
-  toggleMessage,
-  fetchRandomCat,
-};
+// Attach functions to window if running in browser
+if (typeof window !== "undefined") {
+  window.toggleBoxColor = toggleBoxColor;
+  window.increment = increment;
+  window.decrement = decrement;
+  window.reset = reset;
+  window.addItem = addItem;
+  window.removeItem = removeItem;
+  window.handleSubmit = handleSubmit;
+  window.showFormMessage = showFormMessage;
+  window.toggleListColor = toggleListColor;
+  window.toggleWord = toggleWord;
+  window.toggleMessage = toggleMessage;
+  window.fetchRandomCat = fetchRandomCat;
+}
+
+// Export functions if running in Node (Jest)
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    toggleBoxColor,
+    increment,
+    decrement,
+    reset,
+    addItem,
+    removeItem,
+    handleSubmit,
+    showFormMessage,
+    toggleListColor,
+    toggleWord,
+    toggleMessage,
+    fetchRandomCat,
+  };
+}
